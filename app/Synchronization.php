@@ -41,13 +41,11 @@ class Synchronization extends Model
 
     public function refresh()
     {
-        \DB::transaction(function () {
-            $this->delete();
-            $this->synchronizable->synchronization()->create()->ping();
-        });
+        $this->delete();
+        $this->synchronizable->synchronization()->create()->ping();
     }
 
-    public function delete()
+    public function stop()
     {
         try {
             $this->synchronizable
@@ -56,8 +54,6 @@ class Synchronization extends Model
         } catch (\Google_Service_Exception $e) {
             //
         }
-
-        return parent::delete();
     }
 
     public function asGoogleChannel()
@@ -77,6 +73,11 @@ class Synchronization extends Model
         // Initialize before persisting to the database.
         static::creating(function ($synchronization) {
             $synchronization->initialize();
+        });
+
+        // Stop google channel before deleting from the database.
+        static::deleting(function ($synchronization) {
+            $synchronization->stop();
         });
     }
 }

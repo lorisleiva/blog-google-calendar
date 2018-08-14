@@ -6,6 +6,7 @@ use App\Calendar;
 use App\Concerns\Synchronizable;
 use App\Jobs\SynchronizeGoogleCalendars;
 use App\Jobs\WatchGoogleCalendars;
+use App\Services\Google;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -44,5 +45,16 @@ class GoogleAccount extends Model
     public function watch(Synchronization $synchronization)
     {
         return WatchGoogleCalendars::dispatchNow($synchronization);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        // Delete associated calendars and revoke auth token.
+        static::deleting(function ($googleAccount) {
+            $googleAccount->calendars->each->delete();
+            app(Google::class)->connectUsing($googleAccount->token)->revokeToken();
+        });
     }
 }

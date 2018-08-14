@@ -17,8 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        GoogleAccount::observe(GoogleAccountSynchronizationObserver::class);
-        Calendar::observe(GoogleCalendarSynchronizationObserver::class);
+        //
     }
 
     /**
