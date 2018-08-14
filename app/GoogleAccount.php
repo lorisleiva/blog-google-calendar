@@ -39,21 +39,23 @@ class GoogleAccount extends Model
 
     public function synchronize()
     {
-        return SynchronizeGoogleCalendars::dispatch($this);
+        SynchronizeGoogleCalendars::dispatch($this);
     }
 
-    public function watch(Synchronization $synchronization)
+    public function watch()
     {
-        return WatchGoogleCalendars::dispatchNow($synchronization);
+        WatchGoogleCalendars::dispatch($this);
     }
 
     public static function boot()
     {
         parent::boot();
 
-        // Delete associated calendars and revoke auth token.
         static::deleting(function ($googleAccount) {
             $googleAccount->calendars->each->delete();
+        });
+
+        static::deleted(function ($googleAccount) {
             app(Google::class)->connectUsing($googleAccount->token)->revokeToken();
         });
     }

@@ -2,9 +2,8 @@
 
 namespace App;
 
-use App\Jobs\GoogleSynchronization;
+use App\Jobs\StopWatchingGoogleResource;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 use Ramsey\Uuid\Uuid;
 
 class Synchronization extends Model
@@ -30,30 +29,21 @@ class Synchronization extends Model
         return $this->synchronizable->synchronize();
     }
 
-    public function initialize()
+    public function startPushNotifications()
     {
-        $this->id = Uuid::uuid4();
-        $this->last_synchronized_at = now();
-        $this->synchronizable->watch($this);
-
-        return $this;
+        $this->synchronizable->watch();
     }
 
-    public function refresh()
+    public function stopPushNotifications()
     {
+        StopWatchingGoogleResource::dispatchNow($this);
+    }
+
+    public function refreshPushNotifications()
+    {
+        $synchronizable = $this->synchronizable;
         $this->delete();
-        $this->synchronizable->synchronization()->create()->ping();
-    }
-
-    public function stop()
-    {
-        try {
-            $this->synchronizable
-                ->getGoogleService('Calendar')
-                ->channels->stop($this->asGoogleChannel());
-        } catch (\Google_Service_Exception $e) {
-            //
-        }
+        $synchronizable->synchronization()->create()->ping();
     }
 
     public function asGoogleChannel()
@@ -70,14 +60,17 @@ class Synchronization extends Model
     {
         parent::boot();
 
-        // Initialize before persisting to the database.
         static::creating(function ($synchronization) {
-            $synchronization->initialize();
+            $synchronization->id = Uuid::uuid4();
+            $synchronization->last_synchronized_at = now();
         });
 
-        // Stop google channel before deleting from the database.
+        static::created(function ($synchronization) {
+            $synchronization->startPushNotifications();
+        });
+
         static::deleting(function ($synchronization) {
-            $synchronization->stop();
+            $synchronization->stopPushNotifications();
         });
     }
 }

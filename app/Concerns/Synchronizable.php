@@ -33,6 +33,6 @@ trait Synchronizable
     }
 
     abstract public function getGoogleToken();
-    abstract public function watch(Synchronization $synchronization);
+    abstract public function watch();
     abstract public function synchronize();
 }

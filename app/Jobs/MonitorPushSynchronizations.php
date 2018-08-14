@@ -27,6 +27,6 @@ class MonitorPushSynchronizations implements ShouldQueue
             ->whereNull('expired_at')
             ->orWhere('expired_at', '<', now()->subDays($this->refreshInterval))
             ->get()
-            ->each->refresh();
+            ->each->refreshPushNotifications();
     }
 }

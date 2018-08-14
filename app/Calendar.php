@@ -34,11 +34,11 @@ class Calendar extends Model
 
     public function synchronize()
     {
-        return SynchronizeGoogleEvents::dispatch($this);
+        SynchronizeGoogleEvents::dispatch($this);
     }
 
-    public function watch(Synchronization $synchronization)
+    public function watch()
     {
-        return WatchGoogleEvents::dispatch($synchronization);
+        WatchGoogleEvents::dispatch($this);
     }
 }

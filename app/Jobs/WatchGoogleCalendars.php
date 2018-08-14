@@ -3,11 +3,15 @@
 namespace App\Jobs;
 
 use App\Jobs\WatchGoogleResource;
+use Illuminate\Bus\Queueable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class WatchGoogleCalendars extends WatchGoogleResource
+class WatchGoogleCalendars extends WatchGoogleResource implements ShouldQueue
 {
-    use Dispatchable;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     
     public function getGoogleRequest($service, $channel)
     {

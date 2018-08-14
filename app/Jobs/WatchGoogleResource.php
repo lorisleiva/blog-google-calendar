@@ -6,25 +6,28 @@ use Illuminate\Support\Carbon;
 
 abstract class WatchGoogleResource
 {
-    protected $synchronization;
+    protected $synchronizable;
 
-    public function __construct($synchronization)
+    public function __construct($synchronizable)
     {
-        $this->synchronization = $synchronization;
+        $this->synchronizable = $synchronizable;
     }
 
     public function handle()
     {
+        $synchronization = $this->synchronizable->synchronization;
+
         try {
             $channel = $this->getGoogleRequest(
-                $this->synchronization->synchronizable->getGoogleService('Calendar'),
-                $this->synchronization->asGoogleChannel()
+                $this->synchronizable->getGoogleService('Calendar'),
+                $synchronization->asGoogleChannel()
             );
 
-            $this->synchronization->resource_id = $channel->getResourceId();
-            $this->synchronization->expired_at = Carbon::createFromTimestampMs(
-                $channel->getExpiration()
-            );
+            $synchronization->update([
+                'resource_id' => $channel->getResourceId(),
+                'expired_at' => Carbon::createFromTimestampMs($channel->getExpiration())
+            ]);
+
         } catch (\Google_Service_Exception $e) {
             // If we reach an error at this point, it is likely that
             // push notifications are not allowed for this resource.
