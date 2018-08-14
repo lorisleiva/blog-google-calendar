@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Calendar;
+use App\GoogleAccount;
+use App\Observers\GoogleAccountSynchronizationObserver;
+use App\Observers\GoogleCalendarSynchronizationObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +17,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        GoogleAccount::observe(GoogleAccountSynchronizationObserver::class);
+        Calendar::observe(GoogleCalendarSynchronizationObserver::class);
     }
 
     /**
