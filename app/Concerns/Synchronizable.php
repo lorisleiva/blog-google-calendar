@@ -11,7 +11,7 @@ trait Synchronizable
     {
         // Start a new synchronization once created.
         static::created(function ($synchronizable) {
-            $synchronizable->synchronization()->create()->ping();
+            $synchronizable->synchronization()->create();
         });
 
         // Stop and delete associated synchronization.

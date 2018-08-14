@@ -43,7 +43,7 @@ class Synchronization extends Model
     {
         $synchronizable = $this->synchronizable;
         $this->delete();
-        $synchronizable->synchronization()->create()->ping();
+        $synchronizable->synchronization()->create();
     }
 
     public function asGoogleChannel()
@@ -67,6 +67,7 @@ class Synchronization extends Model
 
         static::created(function ($synchronization) {
             $synchronization->startPushNotifications();
+            $synchronization->ping();
         });
 
         static::deleting(function ($synchronization) {
