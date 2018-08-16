@@ -15,11 +15,11 @@ class GoogleAccount extends Model
     use Synchronizable;
 
     protected $fillable = [
-        'google_id', 'name', 'token'
+        'google_id', 'name', 'token',
     ];
 
     protected $casts = [
-        'token' => 'json'
+        'token' => 'json',
     ];
 
     public function user()

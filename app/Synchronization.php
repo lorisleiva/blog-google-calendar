@@ -11,7 +11,7 @@ class Synchronization extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'resource_id', 'token', 'expired_at', 'last_synchronized_at'
+        'resource_id', 'token', 'expired_at', 'last_synchronized_at',
     ];
 
     protected $casts = [

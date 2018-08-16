@@ -14,7 +14,7 @@ class Calendar extends Model
     use Synchronizable;
 
     protected $fillable = [
-        'google_id', 'name', 'color', 'timezone'
+        'google_id', 'name', 'color', 'timezone',
     ];
 
     public function googleAccount()

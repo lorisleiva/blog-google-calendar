@@ -4,14 +4,13 @@ namespace App;
 
 use App\Calendar;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 
 class Event extends Model
 {
     protected $with = ['calendar'];
 
     protected $fillable = [
-        'google_id', 'name', 'description', 'allday', 'started_at', 'ended_at'
+        'google_id', 'name', 'description', 'allday', 'started_at', 'ended_at',
     ];
 
     public function calendar()
