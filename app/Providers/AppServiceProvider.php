@@ -2,10 +2,6 @@
 
 namespace App\Providers;
 
-use App\Calendar;
-use App\GoogleAccount;
-use App\Observers\GoogleAccountSynchronizationObserver;
-use App\Observers\GoogleCalendarSynchronizationObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

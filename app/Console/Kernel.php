@@ -2,8 +2,6 @@
 
 namespace App\Console;
 
-use App\Jobs\MonitorManualSynchronizations;
-use App\Jobs\MonitorPushSynchronizations;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -26,8 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new MonitorManualSynchronizations(15))->everyFifteenMinutes();
-        $schedule->job(new MonitorPushSynchronizations(5))->daily();
+        // $schedule->command('inspire')
+        //          ->hourly();
     }
 
     /**

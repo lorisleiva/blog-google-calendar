@@ -35,18 +35,4 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
-    'google' => [
-        'client_id' => env('GOOGLE_CLIENT_ID'),
-        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect_uri' => env('GOOGLE_REDIRECT_URI'),
-        'webhook_uri' => env('GOOGLE_WEBHOOK_URI'),
-        'scopes' => [
-            \Google_Service_Oauth2::USERINFO_EMAIL,
-            \Google_Service_Calendar::CALENDAR,
-        ],
-        'approval_prompt' => 'force',
-        'access_type' => 'offline',
-        'include_granted_scopes' => true,
-    ],
-
 ];
