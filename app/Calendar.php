@@ -4,6 +4,7 @@ namespace App;
 
 use App\Event;
 use App\GoogleAccount;
+use App\Jobs\SynchronizeGoogleEvents;
 use Illuminate\Database\Eloquent\Model;
 
 class Calendar extends Model
@@ -20,5 +21,14 @@ class Calendar extends Model
     public function events()
     {
         return $this->hasMany(Event::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($calendar) {
+            SynchronizeGoogleEvents::dispatch($calendar);
+        });
     }
 }
