@@ -14,3 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+// Managing Google accounts.
+Route::name('google.index')->get('google', 'GoogleAccountController@index');
+Route::name('google.store')->get('google/oauth', 'GoogleAccountController@store');
+Route::name('google.destroy')->delete('google/{googleAccount}', 'GoogleAccountController@destroy');
