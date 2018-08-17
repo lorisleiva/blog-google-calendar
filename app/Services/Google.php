@@ -18,6 +18,13 @@ class Google
         $client->setIncludeGrantedScopes(config('services.google.include_granted_scopes'));
         $this->client = $client;
     }
+    
+    public function connectUsing($token)
+    {
+        $this->client->setAccessToken($token);
+
+        return $this;
+    }
 
     public function service($service)
     {

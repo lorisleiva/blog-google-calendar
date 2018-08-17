@@ -29,7 +29,24 @@ class GoogleAccountController extends Controller
      */
     public function store(Request $request, Google $google)
     {
-        // TODO
+        if (! $request->has('code')) {
+            return redirect($google->createAuthUrl());
+        }
+
+        $google->authenticate($request->get('code'));
+        $account = $google->service('Plus')->people->get('me');
+
+        auth()->user()->googleAccounts()->updateOrCreate(
+            [
+                'google_id' => $account->id,
+            ],
+            [
+                'name' => head($account->emails)->value,
+                'token' => $google->getAccessToken(),
+            ]
+        );
+
+        return redirect()->route('google.index');
     }
 
     /**
