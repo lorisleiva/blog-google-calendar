@@ -70,6 +70,7 @@
                 <div class="top-right links">
                     @auth
                         <a href="{{ route('google.index') }}">Accounts</a>
+                        <a href="{{ route('event.index') }}">Events</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
                         <a href="{{ route('register') }}">Register</a>

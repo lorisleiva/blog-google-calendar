@@ -35,6 +35,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <a class="nav-link" href="{{ route('google.index') }}">Accounts</a>
+                        <a class="nav-link" href="{{ route('event.index') }}">Events</a>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

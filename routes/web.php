@@ -21,3 +21,6 @@ Auth::routes();
 Route::name('google.index')->get('google', 'GoogleAccountController@index');
 Route::name('google.store')->get('google/oauth', 'GoogleAccountController@store');
 Route::name('google.destroy')->delete('google/{googleAccount}', 'GoogleAccountController@destroy');
+
+// Viewing events.
+Route::name('event.index')->get('event', 'EventController@index');
