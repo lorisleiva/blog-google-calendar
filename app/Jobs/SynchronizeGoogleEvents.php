@@ -49,7 +49,7 @@ class SynchronizeGoogleEvents extends SynchronizeGoogleResource implements Shoul
                 'google_id' => $googleEvent->id,
             ],
             [
-                'name' => $googleEvent->summary,
+                'name' => $googleEvent->summary ?? '(No title)',
                 'description' => $googleEvent->description,
                 'allday' => $this->isAllDayEvent($googleEvent), 
                 'started_at' => $this->parseDatetime($googleEvent->start), 
