@@ -2,6 +2,7 @@
 
 namespace App\Concerns;
 
+use App\Services\Google;
 use App\Synchronization;
 
 trait Synchronizable
@@ -23,6 +24,13 @@ trait Synchronizable
     {
         return $this->morphOne(Synchronization::class, 'synchronizable');
     }
-    
+
+    public function getGoogleService($service)
+    {
+        return app(Google::class)
+            ->connectWithSynchronizable($this)
+            ->service($service);
+    }
+
     abstract public function synchronize();
 }
