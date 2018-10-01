@@ -10,11 +10,12 @@ class Synchronization extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'token', 'last_synchronized_at'
+        'token', 'last_synchronized_at', 'resource_id', 'expired_at'
     ];
 
     protected $casts = [
         'last_synchronized_at' => 'datetime',
+        'expired_at' => 'datetime',
     ];
     
     public function ping()

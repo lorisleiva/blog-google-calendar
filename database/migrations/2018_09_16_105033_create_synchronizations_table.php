@@ -21,8 +21,10 @@ class CreateSynchronizationsTable extends Migration
 
             // Data.
             $table->string('token')->nullable();
+            $table->string('resource_id')->nullable();
 
             // Timestamps.
+            $table->datetime('expired_at')->nullable();
             $table->datetime('last_synchronized_at');
             $table->timestamps();
         });
