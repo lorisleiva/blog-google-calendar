@@ -5,6 +5,7 @@ namespace App;
 use App\Calendar;
 use App\Concerns\Synchronizable;
 use App\Jobs\SynchronizeGoogleCalendars;
+use App\Jobs\WatchGoogleCalendars;
 use App\Services\Google;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
@@ -34,5 +35,10 @@ class GoogleAccount extends Model
     public function synchronize()
     {
         SynchronizeGoogleCalendars::dispatch($this);
+    }
+
+    public function watch()
+    {
+        WatchGoogleCalendars::dispatch($this);
     }
 }

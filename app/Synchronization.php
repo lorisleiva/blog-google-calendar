@@ -23,6 +23,36 @@ class Synchronization extends Model
         return $this->synchronizable->synchronize();
     }
 
+    public function startListeningForChanges()
+    {
+        return $this->synchronizable->watch();
+    }
+
+    public function stopListeningForChanges()
+    {
+        if (! $this->resource_id) {
+            return;
+        }
+
+        $this->synchronizable
+            ->getGoogleService('Calendar')
+            ->channels->stop($this->asGoogleChannel());
+    }
+
+    public function refreshWebhook()
+    {
+        $this->stopListeningForChanges();
+
+        // Update the UUID since the previous one has 
+        // already been associated to a Google Channel.
+        $this->id = Uuid::uuid4();
+        $this->save();
+
+        $this->startListeningForChanges();
+
+        return $this;
+    }
+
     public function asGoogleChannel()
     {
         return tap(new \Google_Service_Calendar_Channel(), function ($channel) {
@@ -48,7 +78,12 @@ class Synchronization extends Model
         });
 
         static::created(function ($synchronization) {
+            $synchronization->startListeningForChanges();
             $synchronization->ping();
+        });
+
+        static::deleting(function ($synchronization) {
+            $synchronization->stopListeningForChanges();
         });
     }
 }

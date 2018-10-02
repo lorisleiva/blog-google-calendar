@@ -33,4 +33,5 @@ trait Synchronizable
     }
 
     abstract public function synchronize();
+    abstract public function watch();
 }

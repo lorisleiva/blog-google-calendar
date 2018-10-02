@@ -6,6 +6,7 @@ use App\Concerns\Synchronizable;
 use App\Event;
 use App\GoogleAccount;
 use App\Jobs\SynchronizeGoogleEvents;
+use App\Jobs\WatchGoogleEvents;
 use Illuminate\Database\Eloquent\Model;
 
 class Calendar extends Model
@@ -29,5 +30,10 @@ class Calendar extends Model
     public function synchronize()
     {
         SynchronizeGoogleEvents::dispatch($this);
+    }
+
+    public function watch()
+    {
+        WatchGoogleEvents::dispatch($this);
     }
 }
