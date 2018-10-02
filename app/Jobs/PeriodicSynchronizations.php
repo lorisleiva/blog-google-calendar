@@ -15,6 +15,6 @@ class PeriodicSynchronizations implements ShouldQueue
 
     public function handle()
     {   
-        Synchronization::get()->each->ping();
+        Synchronization::whereNull('resource_id')->get()->each->ping();
     }
 }
